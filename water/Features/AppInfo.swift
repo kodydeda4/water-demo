@@ -3,7 +3,7 @@ import ComposableArchitecture
 
 struct AppInfo: ReducerProtocol {
   struct State: Equatable {
-    //var radar: RadarClient.Radar?
+    //...
   }
   
   enum Action: Equatable {
@@ -52,39 +52,6 @@ struct AppInfoView: View {
     }
   }
 }
-
-private struct HapticProminentButtonStyle: ButtonStyle {
-  var feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle
-  
-  func makeBody(configuration: Self.Configuration) -> some View {
-    configuration
-      .label
-      .font(.headline)
-      .foregroundColor(Color.white)
-      .padding(.horizontal)
-      .padding(.vertical, 16)
-      .frame(maxWidth: .infinity)
-      .background(
-//        Color(.darkGray)
-        Color.accentColor
-          .overlay {
-            Color.black.opacity(configuration.isPressed ? 0.2 : 0)
-          }
-      )
-      .animation(
-        Animation.default.speed(2.0),
-        value: configuration.isPressed
-      )
-      .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-      .onChange(of: configuration.isPressed) { isPressed in
-        if isPressed {
-          UIImpactFeedbackGenerator(style: feedbackStyle)
-            .impactOccurred()
-        }
-      }
-  }
-}
-
 
 // MARK: - SwiftUI Previews
 

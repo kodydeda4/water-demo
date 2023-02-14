@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 import MapKit
 
-struct SearchResult: ReducerProtocol {
+struct Watersource: ReducerProtocol {
   struct State: Equatable, Identifiable {
     let id: UUID
     let title: String
@@ -70,7 +70,7 @@ struct SearchResult: ReducerProtocol {
 // MARK: - SwiftUI
 
 struct SearchResultView: View {
-  let store: StoreOf<SearchResult>
+  let store: StoreOf<Watersource>
   
   var body: some View {
     WithViewStore(store) { viewStore in
@@ -145,7 +145,7 @@ struct SearchResultView: View {
 }
 
 struct SearchResultDetailsView: View {
-  let store: StoreOf<SearchResult>
+  let store: StoreOf<Watersource>
   
   var body: some View {
     WithViewStore(store) { viewStore in
@@ -201,7 +201,7 @@ struct SearchResultDetailsView: View {
 struct SearchResultView_Previews: PreviewProvider {
   static var previews: some View {
     SearchResultView(store: .init(
-      initialState: SearchResult.State(
+      initialState: Watersource.State(
         id: UUID(),
         title: "Well A",
         imageURL: URL(string: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.totalsoftwater.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fwells-2212974_1280-180x180.jpg&f=1&nofb=1&ipt=c03b5b92cac7fcf82b6d57cdb22d5df0f9d7d319278cb7278a8beeb32e335a6f&ipo=images")!,
@@ -213,7 +213,7 @@ struct SearchResultView_Previews: PreviewProvider {
         disinfect: 12,
         filter: 42
       ),
-      reducer: SearchResult()
+      reducer: Watersource()
     ))
   }
 }
@@ -221,7 +221,7 @@ struct SearchResultDetailsView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
       SearchResultDetailsView(store: .init(
-        initialState: SearchResult.State(
+        initialState: Watersource.State(
           id: UUID(),
           title: "Well A",
           imageURL: URL(string: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.totalsoftwater.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fwells-2212974_1280-180x180.jpg&f=1&nofb=1&ipt=c03b5b92cac7fcf82b6d57cdb22d5df0f9d7d319278cb7278a8beeb32e335a6f&ipo=images")!,
@@ -233,7 +233,7 @@ struct SearchResultDetailsView_Previews: PreviewProvider {
           disinfect: 12,
           filter: 42
         ),
-        reducer: SearchResult()
+        reducer: Watersource()
       ))
     }
   }

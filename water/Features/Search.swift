@@ -2,12 +2,9 @@ import SwiftUI
 import ComposableArchitecture
 import MapKit
 
-// [CDC] Making Water Safe in an Emergency
-//https://www.cdc.gov/healthywater/emergency/making-water-safe.html
-
 struct Search: ReducerProtocol {
   struct State: Equatable {
-    var searchResults = IdentifiedArrayOf<SearchResult.State>()
+    var watersources = IdentifiedArrayOf<Watersource.State>()
     var appInfo: AppInfo.State?
     var isAppInfoSheetPresented: Bool { appInfo != nil }
     @BindableState var region = CoordinateRegion.wilmington
@@ -19,11 +16,11 @@ struct Search: ReducerProtocol {
     case setAppInfoSheet(isPresented: Bool)
     case binding(BindingAction<State>)
     case appInfo(AppInfo.Action)
-    case searchResults(id: SearchResult.State.ID, action: SearchResult.Action)
+    case watersources(id: Watersource.State.ID, action: Watersource.Action)
   }
   
   @Dependency(\.remoteDatabase) var remoteDatabase
-
+  
   var body: some ReducerProtocol<State, Action> {
     BindingReducer()
     Reduce { state, action in
@@ -37,8 +34,8 @@ struct Search: ReducerProtocol {
         }
         
       case let .taskResponse(.success(values)):
-        state.searchResults = .init(uniqueElements: values.map {
-          SearchResult.State(
+        state.watersources = .init(uniqueElements: values.map {
+          Watersource.State(
             id: $0.id,
             title: $0.title,
             imageURL: $0.imageURL,
@@ -70,13 +67,13 @@ struct Search: ReducerProtocol {
       case .appInfo:
         return .none
         
-      case .searchResults:
+      case .watersources:
         return.none
         
       }
     }
-    .forEach(\.searchResults, action: /Action.searchResults) {
-      SearchResult()
+    .forEach(\.watersources, action: /Action.watersources) {
+      Watersource()
     }
     .ifLet(\.appInfo, action: /Action.appInfo) {
       AppInfo()
@@ -96,10 +93,7 @@ extension CoordinateRegion {
 // MARK: - SwiftUI
 
 struct SearchView: View {
-  let store: StoreOf<Search> = .init(
-    initialState: Search.State(),
-    reducer: Search()
-  )
+  let store: StoreOf<Search>
   
   var body: some View {
     WithViewStore(store) { viewStore in
@@ -115,8 +109,8 @@ struct SearchView: View {
           List {
             Section("Search Results") {
               ForEachStore(store.scope(
-                state: \.searchResults,
-                action: Search.Action.searchResults
+                state: \.watersources,
+                action: Search.Action.watersources
               )) { childStore in
                 WithViewStore(childStore) { childViewStore in
                   NavigationLink(
@@ -168,12 +162,12 @@ private struct MapView: View {
           set: { viewStore.send(.binding(.set(\.$region, .init(rawValue: $0)))) }
         ),
         showsUserLocation: true,
-        annotationItems: viewStore.searchResults,
-        annotationContent: { searchResult in
-          MapAnnotation(coordinate: searchResult.location.rawValue) {
+        annotationItems: viewStore.watersources,
+        annotationContent: { watersource in
+          MapAnnotation(coordinate: watersource.location.rawValue) {
             IfLetStore(store.scope(
-              state: { $0.searchResults[id: searchResult.id] },
-              action: { Search.Action.searchResults(id: searchResult.id, action: $0) }
+              state: { $0.watersources[id: watersource.id] },
+              action: { Search.Action.watersources(id: watersource.id, action: $0) }
             ), then: EachContent.init)
           }
         }
@@ -182,7 +176,7 @@ private struct MapView: View {
   }
   
   private struct EachContent: View {
-    let store: StoreOf<SearchResult>
+    let store: StoreOf<Watersource>
     
     var body: some View {
       WithViewStore(store) { viewStore in
@@ -214,6 +208,9 @@ private struct MapView: View {
 
 struct SearchView_Previews: PreviewProvider {
   static var previews: some View {
-    SearchView()
+    SearchView(store: Store(
+      initialState: Search.State(),
+      reducer: Search()
+    ))
   }
 }
