@@ -30,7 +30,7 @@ struct InformationView: View {
     WithViewStore(store) { viewStore in
       NavigationView {
         VStack(spacing: 8) {
-          Text("About this Demo")
+          Text("Kody Deda")
             .font(.largeTitle)
             .bold()
           
@@ -39,7 +39,7 @@ struct InformationView: View {
         }
         .padding()
         .padding([.horizontal, .top])
-        .navigationTitle("")
+        .navigationTitle("About")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
           ToolbarItemGroup(placement: .cancellationAction) {
