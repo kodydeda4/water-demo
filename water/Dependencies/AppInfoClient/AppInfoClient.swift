@@ -17,5 +17,5 @@ extension DependencyValues {
 extension AppInfoClient {
   static var liveValue = Self.live
   static var previewValue = Self.live
-  //static var testValue = Self.test
+  static var testValue = Self.test
 }
