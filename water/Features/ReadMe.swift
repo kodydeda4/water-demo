@@ -1,7 +1,7 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct Information: ReducerProtocol {
+struct ReadMe: ReducerProtocol {
   struct State: Equatable {
     //...
   }
@@ -23,8 +23,8 @@ struct Information: ReducerProtocol {
 
 // MARK: - SwiftUI
 
-struct InformationView: View {
-  let store: StoreOf<Information>
+struct ReadMeView: View {
+  let store: StoreOf<ReadMe>
   
   var body: some View {
     WithViewStore(store) { viewStore in
@@ -55,14 +55,14 @@ struct InformationView: View {
 
 // MARK: - SwiftUI Previews
 
-struct InformationView_Previews: PreviewProvider {
+struct ReadMeView_Previews: PreviewProvider {
   static var previews: some View {
-    InformationView(
+    ReadMeView(
       store: Store(
-        initialState: Information.State(),
-        reducer: Information()
+        initialState: ReadMe.State(),
+        reducer: ReadMe()
       )
     )
   }
 }
- 
+

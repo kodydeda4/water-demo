@@ -10,32 +10,30 @@
 		3390C202299C3FE700BD627E /* RemoteDatabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C201299C3FE700BD627E /* RemoteDatabaseClient.swift */; };
 		3390C206299C405000BD627E /* RemoteDatabaseClient.Watersource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C205299C405000BD627E /* RemoteDatabaseClient.Watersource.swift */; };
 		3390C208299C409500BD627E /* RemoteDatabaseClient+mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C207299C409500BD627E /* RemoteDatabaseClient+mock.swift */; };
-		3390C20A299C54D700BD627E /* _AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C209299C54D700BD627E /* _AppReducer.swift */; };
 		3390C20C299C582E00BD627E /* WatersourceDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C20B299C582E00BD627E /* WatersourceDetails.swift */; };
 		33EF6820299C1A2E005DBC8B /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF681F299C1A2E005DBC8B /* Main.swift */; };
 		33EF6824299C1A2F005DBC8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33EF6823299C1A2F005DBC8B /* Assets.xcassets */; };
 		33EF6827299C1A2F005DBC8B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33EF6826299C1A2F005DBC8B /* Preview Assets.xcassets */; };
 		33EF682F299C22CF005DBC8B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 33EF682E299C22CF005DBC8B /* ComposableArchitecture */; };
-		33EF6831299C2859005DBC8B /* Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF6830299C2859005DBC8B /* Information.swift */; };
+		33EF6831299C2859005DBC8B /* ReadMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF6830299C2859005DBC8B /* ReadMe.swift */; };
 		33EF6835299C37E1005DBC8B /* CoordinateRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF6834299C37E1005DBC8B /* CoordinateRegion.swift */; };
 		33EF6837299C399B005DBC8B /* Watersource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF6836299C399B005DBC8B /* Watersource.swift */; };
-		33EF683A299C3A11005DBC8B /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF6839299C3A11005DBC8B /* Search.swift */; };
+		33EF683A299C3A11005DBC8B /* _AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF6839299C3A11005DBC8B /* _AppReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3390C201299C3FE700BD627E /* RemoteDatabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDatabaseClient.swift; sourceTree = "<group>"; };
 		3390C205299C405000BD627E /* RemoteDatabaseClient.Watersource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDatabaseClient.Watersource.swift; sourceTree = "<group>"; };
 		3390C207299C409500BD627E /* RemoteDatabaseClient+mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteDatabaseClient+mock.swift"; sourceTree = "<group>"; };
-		3390C209299C54D700BD627E /* _AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _AppReducer.swift; sourceTree = "<group>"; };
 		3390C20B299C582E00BD627E /* WatersourceDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatersourceDetails.swift; sourceTree = "<group>"; };
 		33EF681C299C1A2E005DBC8B /* water.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = water.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33EF681F299C1A2E005DBC8B /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		33EF6823299C1A2F005DBC8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33EF6826299C1A2F005DBC8B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		33EF6830299C2859005DBC8B /* Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Information.swift; sourceTree = "<group>"; };
+		33EF6830299C2859005DBC8B /* ReadMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadMe.swift; sourceTree = "<group>"; };
 		33EF6834299C37E1005DBC8B /* CoordinateRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateRegion.swift; sourceTree = "<group>"; };
 		33EF6836299C399B005DBC8B /* Watersource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watersource.swift; sourceTree = "<group>"; };
-		33EF6839299C3A11005DBC8B /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		33EF6839299C3A11005DBC8B /* _AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _AppReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,9 +130,8 @@
 		33EF6838299C3A0A005DBC8B /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				3390C209299C54D700BD627E /* _AppReducer.swift */,
-				33EF6830299C2859005DBC8B /* Information.swift */,
-				33EF6839299C3A11005DBC8B /* Search.swift */,
+				33EF6839299C3A11005DBC8B /* _AppReducer.swift */,
+				33EF6830299C2859005DBC8B /* ReadMe.swift */,
 				33EF6836299C399B005DBC8B /* Watersource.swift */,
 				3390C20B299C582E00BD627E /* WatersourceDetails.swift */,
 			);
@@ -220,12 +217,11 @@
 				33EF6837299C399B005DBC8B /* Watersource.swift in Sources */,
 				3390C202299C3FE700BD627E /* RemoteDatabaseClient.swift in Sources */,
 				33EF6835299C37E1005DBC8B /* CoordinateRegion.swift in Sources */,
-				3390C20A299C54D700BD627E /* _AppReducer.swift in Sources */,
-				33EF683A299C3A11005DBC8B /* Search.swift in Sources */,
+				33EF683A299C3A11005DBC8B /* _AppReducer.swift in Sources */,
 				3390C206299C405000BD627E /* RemoteDatabaseClient.Watersource.swift in Sources */,
 				33EF6820299C1A2E005DBC8B /* Main.swift in Sources */,
 				3390C20C299C582E00BD627E /* WatersourceDetails.swift in Sources */,
-				33EF6831299C2859005DBC8B /* Information.swift in Sources */,
+				33EF6831299C2859005DBC8B /* ReadMe.swift in Sources */,
 				3390C208299C409500BD627E /* RemoteDatabaseClient+mock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
