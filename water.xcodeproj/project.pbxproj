@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33220B33299D724C000778DB /* AppInfoClient.Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33220B32299D724C000778DB /* AppInfoClient.Author.swift */; };
+		33220B35299D727A000778DB /* AppInfoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33220B34299D727A000778DB /* AppInfoClient.swift */; };
+		33220B37299D729B000778DB /* AppInfoClient+live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33220B36299D729B000778DB /* AppInfoClient+live.swift */; };
 		3390C202299C3FE700BD627E /* RemoteDatabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C201299C3FE700BD627E /* RemoteDatabaseClient.swift */; };
 		3390C206299C405000BD627E /* RemoteDatabaseClient.Watersource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C205299C405000BD627E /* RemoteDatabaseClient.Watersource.swift */; };
 		3390C208299C409500BD627E /* RemoteDatabaseClient+mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C207299C409500BD627E /* RemoteDatabaseClient+mock.swift */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33220B32299D724C000778DB /* AppInfoClient.Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoClient.Author.swift; sourceTree = "<group>"; };
+		33220B34299D727A000778DB /* AppInfoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoClient.swift; sourceTree = "<group>"; };
+		33220B36299D729B000778DB /* AppInfoClient+live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppInfoClient+live.swift"; sourceTree = "<group>"; };
 		3390C201299C3FE700BD627E /* RemoteDatabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDatabaseClient.swift; sourceTree = "<group>"; };
 		3390C205299C405000BD627E /* RemoteDatabaseClient.Watersource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDatabaseClient.Watersource.swift; sourceTree = "<group>"; };
 		3390C207299C409500BD627E /* RemoteDatabaseClient+mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteDatabaseClient+mock.swift"; sourceTree = "<group>"; };
@@ -48,6 +54,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33220B30299D720C000778DB /* AppInfoClient */ = {
+			isa = PBXGroup;
+			children = (
+				33220B31299D7228000778DB /* _Models */,
+				33220B34299D727A000778DB /* AppInfoClient.swift */,
+				33220B36299D729B000778DB /* AppInfoClient+live.swift */,
+			);
+			path = AppInfoClient;
+			sourceTree = "<group>";
+		};
+		33220B31299D7228000778DB /* _Models */ = {
+			isa = PBXGroup;
+			children = (
+				33220B32299D724C000778DB /* AppInfoClient.Author.swift */,
+			);
+			path = _Models;
+			sourceTree = "<group>";
+		};
 		3390C200299C3A5A00BD627E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +138,7 @@
 		33EF6832299C37D4005DBC8B /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				33220B30299D720C000778DB /* AppInfoClient */,
 				3390C203299C3FF700BD627E /* RemoteDatabaseClient */,
 			);
 			path = Dependencies;
@@ -220,6 +245,9 @@
 				33EF683A299C3A11005DBC8B /* _AppReducer.swift in Sources */,
 				3390C206299C405000BD627E /* RemoteDatabaseClient.Watersource.swift in Sources */,
 				33EF6820299C1A2E005DBC8B /* Main.swift in Sources */,
+				33220B37299D729B000778DB /* AppInfoClient+live.swift in Sources */,
+				33220B33299D724C000778DB /* AppInfoClient.Author.swift in Sources */,
+				33220B35299D727A000778DB /* AppInfoClient.swift in Sources */,
 				3390C20C299C582E00BD627E /* WatersourceDetails.swift in Sources */,
 				33EF6831299C2859005DBC8B /* ReadMe.swift in Sources */,
 				3390C208299C409500BD627E /* RemoteDatabaseClient+mock.swift in Sources */,

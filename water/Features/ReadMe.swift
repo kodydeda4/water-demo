@@ -3,22 +3,45 @@ import ComposableArchitecture
 
 struct ReadMe: ReducerProtocol {
   struct State: Equatable {
-    //...
+    var author: AppInfoClient.Author?
   }
   
   enum Action: Equatable {
+    case task
+    case taskResponse(TaskResult<AppInfoClient.Author>)
     case dismissButtonTapped
   }
+  
+  @Dependency(\.appInfo) var appInfo
   
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
+        
+      case .task:
+        return .task {
+          await .taskResponse(TaskResult {
+            try await appInfo.getAuthor()
+          })
+        }
+        
+      case let .taskResponse(.success(value)):
+        state.author = value
+        return .none
+        
+      case .taskResponse(.failure):
+        return .none
         
       case .dismissButtonTapped:
         return .none
       }
     }
   }
+}
+
+
+struct Author: Equatable {
+  
 }
 
 // MARK: - SwiftUI
@@ -34,7 +57,7 @@ struct ReadMeView: View {
             HStack {
               HStack {
                 AsyncImage(
-                  url: URL(string: "https://live.staticflickr.com/65535/51904519089_c6ef9deaff_o.png")!,
+                  url: viewStore.author?.avatarURL,
                   content: { $0.resizable().scaledToFit() },
                   placeholder: ProgressView.init
                 )
@@ -44,9 +67,9 @@ struct ReadMeView: View {
                 .padding(.trailing, 4)
                 
                 VStack(alignment: .leading) {
-                  Text("Kody Deda")
+                  Text("\(viewStore.author?.name ?? "--")")
                     .font(.title2)
-                  Text("iOS Developer")
+                  Text("\(viewStore.author?.title ?? "--")")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 }
@@ -69,6 +92,7 @@ struct ReadMeView: View {
         }
         .navigationTitle("ReadMe")
         .navigationBarTitleDisplayMode(.inline)
+        .task { viewStore.send(.task) }
         .toolbar {
           ToolbarItemGroup(placement: .cancellationAction) {
             Button("Dismiss") {
