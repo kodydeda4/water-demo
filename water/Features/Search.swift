@@ -5,18 +5,26 @@ import MapKit
 struct Search: ReducerProtocol {
   struct State: Equatable {
     var watersources = IdentifiedArrayOf<Watersource.State>()
-    var appInfo: AppInfo.State?
-    var isAppInfoSheetPresented: Bool { appInfo != nil }
+    var destination: Destination?
     @BindableState var region = CoordinateRegion.wilmington
+    
+    enum Destination: Equatable {
+      case information(Information.State)
+      case watersourceDetails(WatersourceDetails.State)
+    }
   }
   
   enum Action: BindableAction, Equatable {
     case task
     case taskResponse(TaskResult<[RemoteDatabaseClient.Watersource]>)
-    case setAppInfoSheet(isPresented: Bool)
     case binding(BindingAction<State>)
-    case appInfo(AppInfo.Action)
+    case setDestination(State.Destination?)
     case watersources(id: Watersource.State.ID, action: Watersource.Action)
+    case destination(Destination)
+    enum Destination: Equatable {
+      case information(Information.Action)
+      case watersourceDetails(WatersourceDetails.Action)
+    }
   }
   
   @Dependency(\.remoteDatabase) var remoteDatabase
@@ -35,48 +43,39 @@ struct Search: ReducerProtocol {
         
       case let .taskResponse(.success(values)):
         state.watersources = .init(uniqueElements: values.map {
-          Watersource.State(
-            id: $0.id,
-            title: $0.title,
-            imageURL: $0.imageURL,
-            location: $0.location,
-            boil: $0.boil,
-            disinfect: $0.disinfect,
-            filter: $0.filter
-          )
+          Watersource.State(model: $0)
         })
         return .none
         
       case .taskResponse(.failure):
         return .none
         
-      case .setAppInfoSheet(isPresented: true):
-        state.appInfo = .init()
-        return .none
-        
-      case .setAppInfoSheet(isPresented: false):
-        state.appInfo = nil
-        return .none
-        
       case .binding:
         return .none
         
-      case .appInfo(.dismissButtonTapped):
-        return .send(.setAppInfoSheet(isPresented: false))
-        
-      case .appInfo:
+      case let .setDestination(value):
+        state.destination = value
         return .none
         
       case .watersources:
         return.none
         
+      case .destination(.information(.dismissButtonTapped)):
+        state.destination = nil
+        return .none
+        
+      case .destination:
+        return .none
+
       }
     }
     .forEach(\.watersources, action: /Action.watersources) {
       Watersource()
     }
-    .ifLet(\.appInfo, action: /Action.appInfo) {
-      AppInfo()
+    .ifLet(\.destination, action: /Action.destination) {
+      EmptyReducer()
+        .ifCaseLet(/State.Destination.information, action: /Action.Destination.information) { Information() }
+        .ifCaseLet(/State.Destination.watersourceDetails, action: /Action.Destination.watersourceDetails) { WatersourceDetails() }
     }
     ._printChanges()
   }
@@ -112,40 +111,65 @@ struct SearchView: View {
                 state: \.watersources,
                 action: Search.Action.watersources
               )) { childStore in
-                WithViewStore(childStore) { childViewStore in
-                  NavigationLink(
-                    destination: {
-                      SearchResultDetailsView(store: childStore)
-                    },
-                    label: {
-                      SearchResultView(store: childStore)
-                        .padding(.vertical, 2)
-                    }
-                  )
-                }
+                WatersourceNavigationLink(
+                  store: store,
+                  childStore: childStore
+                )
               }
             }
           }
-        }
-        .task { viewStore.send(.task) }
-        .navigationTitle("Search")
-        .toolbar {
-          Button(action: { viewStore.send(.setAppInfoSheet(isPresented: true)) }) {
-            Image(systemName: "info.circle.fill")
+          .task { viewStore.send(.task) }
+          .navigationTitle("Search")
+          .toolbar {
+            Button(action: { viewStore.send(.setDestination(.information(.init()))) }) {
+              Image(systemName: "info.circle.fill")
+            }
           }
+          .sheet(
+            isPresented: viewStore.binding(
+              get: { CasePath.extract(/Search.State.Destination.information)(from: $0.destination) != nil },
+              send: { Search.Action.setDestination($0 ? .information(.init()) : nil) }
+            ),
+            content: {
+              IfLetStore(store
+                .scope(state: \.destination, action: Search.Action.destination)
+                .scope(state: /Search.State.Destination.information, action: Search.Action.Destination.information)
+              ) { InformationView(store: $0) }
+            }
+          )
         }
-        .sheet(
-          isPresented: viewStore.binding(
-            get: \.isAppInfoSheetPresented,
-            send: Search.Action.setAppInfoSheet(isPresented:)
+      }
+    }
+  }
+}
+
+private struct WatersourceNavigationLink: View {
+  let store: StoreOf<Search>
+  let childStore: StoreOf<Watersource>
+  
+  var body: some View {
+    WithViewStore(store) { viewStore in
+      WithViewStore(childStore) { childViewStore in
+        NavigationLink(
+          destination: IfLetStore(store
+            .scope(state: \.destination, action: Search.Action.destination)
+            .scope(state: /Search.State.Destination.watersourceDetails, action: Search.Action.Destination.watersourceDetails)
+          ) { WatersourceDetailsView(store: $0) },
+          tag: childViewStore.id,
+          selection: viewStore.binding(
+            get: { CasePath.extract(/Search.State.Destination.watersourceDetails)(from: $0.destination)?.model.id },
+            send: {
+              Search.Action.setDestination(viewStore
+                .watersources[id: childViewStore.id]
+                .flatMap({ Search.State.Destination.watersourceDetails(WatersourceDetails.State(model: $0.model)) })
+              )}()
           ),
-          content: {
-            IfLetStore(store.scope(
-              state: \.appInfo,
-              action: Search.Action.appInfo
-            ), then: AppInfoView.init)
+          label: {
+            WatersourceView(store: childStore)
           }
         )
+        .buttonStyle(.plain)
+        //.listRowBackground(EmptyView())
       }
     }
   }
@@ -164,44 +188,44 @@ private struct MapView: View {
         showsUserLocation: true,
         annotationItems: viewStore.watersources,
         annotationContent: { watersource in
-          MapAnnotation(coordinate: watersource.location.rawValue) {
+          MapAnnotation(coordinate: watersource.model.location.rawValue) {
             IfLetStore(store.scope(
               state: { $0.watersources[id: watersource.id] },
               action: { Search.Action.watersources(id: watersource.id, action: $0) }
-            ), then: EachContent.init)
+            ), then: WatersourceMapAnnotationView.init)
           }
         }
       )
     }
   }
+}
+
+private struct WatersourceMapAnnotationView: View {
+  let store: StoreOf<Watersource>
   
-  private struct EachContent: View {
-    let store: StoreOf<Watersource>
-    
-    var body: some View {
-      WithViewStore(store) { viewStore in
-        NavigationLink(
-          destination: {
-            SearchResultDetailsView(store: store)
-          },
-          label: {
-            AsyncImage(
-              url: viewStore.imageURL,
-              content: { $0.resizable().scaledToFill() },
-              placeholder: { ProgressView() }
-            )
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemGroupedBackground))
-            .frame(width: 60)
-            .clipShape(Circle())
-            .shadow(radius: 2)
-          }
-        )
-      }
+  var body: some View {
+    WithViewStore(store) { viewStore in
+      NavigationLink(
+        destination: {
+          Text("A")
+          //WatersourceDetailsView(store: store)
+        },
+        label: {
+          AsyncImage(
+            url: viewStore.model.imageURL,
+            content: { $0.resizable().scaledToFill() },
+            placeholder: { ProgressView() }
+          )
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .background(Color(.systemGroupedBackground))
+          .frame(width: 60)
+          .clipShape(Circle())
+          .shadow(radius: 2)
+        }
+      )
     }
   }
 }
-
 
 
 // MARK: - SwiftUI Previews
