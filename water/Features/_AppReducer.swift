@@ -4,9 +4,9 @@ import MapKit
 
 struct AppReducer: ReducerProtocol {
   struct State: Equatable {
+    @BindingState var region: CoordinateRegion
     var watersources = IdentifiedArrayOf<Watersource.State>()
     var destination: Destination?
-    @BindableState var region = CoordinateRegion.wilmington
     
     enum Destination: Equatable {
       case readme(ReadMe.State)
@@ -81,12 +81,6 @@ struct AppReducer: ReducerProtocol {
   }
 }
 
-extension CoordinateRegion {
-  static let wilmington = Self(
-    location: .init(latitude: 34.125727, longitude: -77.874710),
-    span: .init(latitudeDelta: 8, longitudeDelta: 8)
-  )
-}
 
 
 // MARK: - SwiftUI
@@ -234,21 +228,38 @@ struct AppView_Previews: PreviewProvider {
   static var previews: some View {
     AppView(store: Store(
       initialState: AppReducer.State(
-        destination: .readme(.init())
-        //        destination: .watersourceDetails(.init(model: .init(
-        //          id: UUID(),
-        //          title: "Well A",
-        //          imageURL: URL(string: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.totalsoftwater.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fwells-2212974_1280-180x180.jpg&f=1&nofb=1&ipt=c03b5b92cac7fcf82b6d57cdb22d5df0f9d7d319278cb7278a8beeb32e335a6f&ipo=images")!,
-        //          location: CoordinateLocation(
-        //            latitude: Double.random(in: 31..<35),
-        //            longitude: Double.random(in: -79 ..< -76)
-        //          ),
-        //          boil: 59,
-        //          disinfect: 12,
-        //          filter: 42
-        //        )))
+        region: .wilmington,
+        watersources: [.init(model: .mock)],
+        //        destination: .readme(.init())
+        destination: .watersourceDetails(.init(model: .mock))
       ),
       reducer: AppReducer()
     ))
   }
 }
+
+// MARK: - Private
+
+private extension CoordinateRegion {
+  static let wilmington = Self(
+    location: .init(latitude: 34.125727, longitude: -77.874710),
+    span: .init(latitudeDelta: 8, longitudeDelta: 8)
+  )
+}
+
+
+private extension RemoteDatabaseClient.Watersource {
+  static let mock = Self(
+    id: UUID(),
+    title: "Well A",
+    imageURL: URL(string: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.totalsoftwater.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fwells-2212974_1280-180x180.jpg&f=1&nofb=1&ipt=c03b5b92cac7fcf82b6d57cdb22d5df0f9d7d319278cb7278a8beeb32e335a6f&ipo=images")!,
+    location: CoordinateLocation(
+      latitude: Double.random(in: 31..<35),
+      longitude: Double.random(in: -79 ..< -76)
+    ),
+    boil: 59,
+    disinfect: 12,
+    filter: 42
+  )
+}
+
