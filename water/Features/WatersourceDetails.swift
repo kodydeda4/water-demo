@@ -6,10 +6,9 @@ struct WatersourceDetails: ReducerProtocol {
   struct State: Equatable, Identifiable {
     var id: RemoteDatabaseClient.Watersource.ID { model.id }
     var model: RemoteDatabaseClient.Watersource
-    
-    var isBoilButtonDisabled: Bool { model.boil == 100 }
-    var isDisinfectButtonDisabled: Bool { model.disinfect == 100 }
-    var isFilterButtonDisabled: Bool { model.filter == 100 }
+    var isBoilingComplete: Bool { model.boil == 100 }
+    var isDisinfectingComplete: Bool { model.disinfect == 100 }
+    var isFilteringComplete: Bool { model.filter == 100 }
   }
   
   enum Action: Equatable {
@@ -69,28 +68,28 @@ struct WatersourceDetailsView: View {
           header: Text("Step 1. Boil"),
           footer: Text("Boiling is the surest method to kill disease-causing germs, including viruses, bacteria, and parasites.")
         ) {
-          Button("Start Boiling") {
+          Button(viewStore.isBoilingComplete ? "Complete" : "Start Boiling") {
             viewStore.send(.boilButtonTapped)
           }
-          .disabled(viewStore.isBoilButtonDisabled)
+          .disabled(viewStore.isBoilingComplete)
         }
         Section(
           header: Text("Step 2. Disinfect"),
           footer: Text("Make small quantities of water safer to drink by using a chemical disinfectant.")
         ) {
-          Button("Start Disinfecting") {
+          Button(viewStore.isDisinfectingComplete ? "Complete" : "Start Disinfecting") {
             viewStore.send(.disinfectButtonTapped)
           }
-          .disabled(viewStore.isDisinfectButtonDisabled)
+          .disabled(viewStore.isDisinfectingComplete)
         }
         Section(
           header: Text("Step 3. Filter"),
           footer: Text("Remove disease-causing parasites such as Cryptosporidium and Giardia.")
         ) {
-          Button("Start Disinfecting") {
+          Button(viewStore.isFilteringComplete ? "Complete" : "Start Filtering") {
             viewStore.send(.filterButtonTapped)
           }
-          .disabled(viewStore.isFilterButtonDisabled)
+          .disabled(viewStore.isFilteringComplete)
         }
       }
       .navigationTitle(viewStore.model.title)
