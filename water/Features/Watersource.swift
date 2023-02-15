@@ -106,18 +106,8 @@ struct WatersourceView_Previews: PreviewProvider {
   static var previews: some View {
     WatersourceView(store: .init(
       initialState: Watersource.State(
-        model: .init(
-          id: UUID(),
-          title: "Well A",
-          imageURL: URL(string: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.totalsoftwater.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fwells-2212974_1280-180x180.jpg&f=1&nofb=1&ipt=c03b5b92cac7fcf82b6d57cdb22d5df0f9d7d319278cb7278a8beeb32e335a6f&ipo=images")!,
-          location: CoordinateLocation(
-            latitude: Double.random(in: 31..<35),
-            longitude: Double.random(in: -79 ..< -76)
-          ),
-          boil: 59,
-          disinfect: 12,
-          filter: 42
-        )),
+        model: .mock
+      ),
       reducer: Watersource()
     ))
   }

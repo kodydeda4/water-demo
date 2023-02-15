@@ -80,3 +80,13 @@ extension CoordinateSpan: Codable, Equatable, Hashable {
     )
   }
 }
+
+
+// MARK: - CoordinateRegion++
+
+extension CoordinateRegion {
+  static let wilmington = Self(
+    location: .init(latitude: 34.125727, longitude: -77.874710),
+    span: .init(latitudeDelta: 8, longitudeDelta: 8)
+  )
+}

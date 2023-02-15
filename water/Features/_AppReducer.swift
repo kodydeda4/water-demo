@@ -17,10 +17,11 @@ struct AppReducer: ReducerProtocol {
   enum Action: BindableAction, Equatable {
     case task
     case taskResponse(TaskResult<[RemoteDatabaseClient.Watersource]>)
-    case binding(BindingAction<State>)
     case setDestination(State.Destination?)
+    case binding(BindingAction<State>)
     case watersources(id: Watersource.State.ID, action: Watersource.Action)
     case destination(Destination)
+    
     enum Destination: Equatable {
       case readme(ReadMe.Action)
       case watersourceDetails(WatersourceDetails.Action)
@@ -50,11 +51,11 @@ struct AppReducer: ReducerProtocol {
       case .taskResponse(.failure):
         return .none
         
-      case .binding:
-        return .none
-        
       case let .setDestination(value):
         state.destination = value
+        return .none
+        
+      case .binding:
         return .none
         
       case .watersources:
@@ -166,6 +167,9 @@ private struct WatersourceNavigationLink: View {
   }
 }
 
+
+// MARK: - MapView
+
 private struct MapView: View {
   let store: StoreOf<AppReducer>
   
@@ -234,29 +238,3 @@ struct AppView_Previews: PreviewProvider {
     ))
   }
 }
-
-// MARK: - Private
-
-private extension CoordinateRegion {
-  static let wilmington = Self(
-    location: .init(latitude: 34.125727, longitude: -77.874710),
-    span: .init(latitudeDelta: 8, longitudeDelta: 8)
-  )
-}
-
-
-private extension RemoteDatabaseClient.Watersource {
-  static let mock = Self(
-    id: UUID(),
-    title: "Well A",
-    imageURL: URL(string: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.totalsoftwater.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fwells-2212974_1280-180x180.jpg&f=1&nofb=1&ipt=c03b5b92cac7fcf82b6d57cdb22d5df0f9d7d319278cb7278a8beeb32e335a6f&ipo=images")!,
-    location: CoordinateLocation(
-      latitude: Double.random(in: 31..<35),
-      longitude: Double.random(in: -79 ..< -76)
-    ),
-    boil: 59,
-    disinfect: 12,
-    filter: 42
-  )
-}
-
