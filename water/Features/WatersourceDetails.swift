@@ -15,7 +15,6 @@ struct WatersourceDetails: ReducerProtocol {
     case boilButtonTapped
     case disinfectButtonTapped
     case filterButtonTapped
-    
     case updateRemoteDatabase
     case updateRemoteDatabaseResponse(TaskResult<String>)
   }
