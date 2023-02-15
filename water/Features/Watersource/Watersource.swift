@@ -57,17 +57,17 @@ struct WatersourceView: View {
           
           HStack {
             PillView(
-              title: "\(viewStore.model.boil.description)",
+              title: "\(viewStore.model.percentBoiled.description)",
               systemImage: "cross.vial",
               color: .red
             )
             PillView(
-              title: "\(viewStore.model.disinfect.description)",
+              title: "\(viewStore.model.percentDisinfected.description)",
               systemImage: "cross.vial",
               color: .orange
             )
             PillView(
-              title: "\(viewStore.model.filter.description)",
+              title: "\(viewStore.model.percentFiltered.description)",
               systemImage: "flame",
               color: .green
             )
@@ -130,7 +130,20 @@ struct WatersourceMapAnnotationView: View {
 
 struct WatersourceView_Previews: PreviewProvider {
   private static let store = StoreOf<Watersource>(
-    initialState: Watersource.State(model: .mock),
+    initialState: Watersource.State(
+      model: .init(
+        id: UUID(),
+        title: "Well A",
+        imageURL: URL(string: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.totalsoftwater.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fwells-2212974_1280-180x180.jpg&f=1&nofb=1&ipt=c03b5b92cac7fcf82b6d57cdb22d5df0f9d7d319278cb7278a8beeb32e335a6f&ipo=images")!,
+        location: CoordinateLocation(
+          latitude: Double.random(in: 31..<35),
+          longitude: Double.random(in: -79 ..< -76)
+        ),
+        percentBoiled: 59,
+        percentDisinfected: 12,
+        percentFiltered: 42
+      )
+    ),
     reducer: Watersource()
   )
   

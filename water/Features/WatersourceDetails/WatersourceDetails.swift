@@ -6,9 +6,9 @@ struct WatersourceDetails: ReducerProtocol {
   struct State: Equatable, Identifiable {
     var id: RemoteDatabaseClient.Watersource.ID { model.id }
     var model: RemoteDatabaseClient.Watersource
-    var isBoilingComplete: Bool { model.boil == 100 }
-    var isDisinfectingComplete: Bool { model.disinfect == 100 }
-    var isFilteringComplete: Bool { model.filter == 100 }
+    var isBoilingComplete: Bool { model.percentBoiled == 100 }
+    var isDisinfectingComplete: Bool { model.percentDisinfected == 100 }
+    var isFilteringComplete: Bool { model.percentFiltered == 100 }
   }
   
   enum Action: Equatable {
@@ -26,15 +26,15 @@ struct WatersourceDetails: ReducerProtocol {
       switch action {
         
       case .boilButtonTapped:
-        state.model.boil = 100
+        state.model.percentBoiled = 100
         return .init(value: .updateRemoteDatabase)
         
       case .disinfectButtonTapped:
-        state.model.disinfect = 100
+        state.model.percentDisinfected = 100
         return .init(value: .updateRemoteDatabase)
         
       case .filterButtonTapped:
-        state.model.filter = 100
+        state.model.percentFiltered = 100
         return .init(value: .updateRemoteDatabase)
         
       case .updateRemoteDatabase:
@@ -128,17 +128,17 @@ private struct Header: View {
           
           HStack {
             PillView(
-              title: "\(viewStore.model.boil.description)",
+              title: "\(viewStore.model.percentBoiled.description)",
               systemImage: "cross.vial",
               color: .red
             )
             PillView(
-              title: "\(viewStore.model.disinfect.description)",
+              title: "\(viewStore.model.percentDisinfected.description)",
               systemImage: "cross.vial",
               color: .orange
             )
             PillView(
-              title: "\(viewStore.model.filter.description)",
+              title: "\(viewStore.model.percentFiltered.description)",
               systemImage: "flame",
               color: .green
             )
@@ -186,9 +186,9 @@ struct WatersourceDetailsView_Previews: PreviewProvider {
               latitude: Double.random(in: 31..<35),
               longitude: Double.random(in: -79 ..< -76)
             ),
-            boil: 59,
-            disinfect: 12,
-            filter: 42
+            percentBoiled: 59,
+            percentDisinfected: 12,
+            percentFiltered: 42
           )),
         reducer: WatersourceDetails()
       ))

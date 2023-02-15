@@ -6,9 +6,9 @@ extension RemoteDatabaseClient {
     let title: String
     let imageURL: URL
     let location: CoordinateLocation
-    var boil: Double
-    var disinfect: Double
-    var filter: Double
+    var percentBoiled: Double
+    var percentDisinfected: Double
+    var percentFiltered: Double
   }
 }
 
@@ -28,9 +28,9 @@ extension RemoteDatabaseClient.Watersource {
       latitude: Double.random(in: 31..<35),
       longitude: Double.random(in: -79 ..< -76)
     ),
-    boil: 59,
-    disinfect: 12,
-    filter: 42
+    percentBoiled: 59,
+    percentDisinfected: 12,
+    percentFiltered: 42
   )
 }
 
