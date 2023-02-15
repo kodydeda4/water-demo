@@ -96,9 +96,6 @@ struct AppView: View {
             MapView(store: store)
               .frame(height: 225)
           }
-          //.disabled(true)
-          .buttonStyle(.plain)
-          
           List {
             Section("Search Results") {
               ForEachStore(store.scope(

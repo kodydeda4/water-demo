@@ -29,17 +29,45 @@ struct ReadMeView: View {
   var body: some View {
     WithViewStore(store) { viewStore in
       NavigationView {
-        VStack(spacing: 8) {
-          Text("Kody Deda")
-            .font(.largeTitle)
-            .bold()
+        Form {
+          Section("Author") {
+            HStack {
+              HStack {
+                AsyncImage(
+                  url: URL(string: "https://live.staticflickr.com/65535/51904519089_c6ef9deaff_o.png")!,
+                  content: { $0.resizable().scaledToFit() },
+                  placeholder: ProgressView.init
+                )
+                .frame(width: 60, height: 60)
+                .background(Color(.systemFill))
+                .clipShape(Circle())
+                .padding(.trailing, 4)
+                
+                VStack(alignment: .leading) {
+                  Text("Kody Deda")
+                    .font(.title2)
+                  Text("iOS Developer")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+              }
+            }
+          }
+          Section(
+            header: Text("CDC Information"),
+            footer: Text("Learn about the different stages of cleaning water and how to make it clean for human consumption. ")
+          ) {
+            Link(
+              "Making Water Safe in an Emergency",
+              destination: URL(string: "https://www.cdc.gov/healthywater/emergency/making-water-safe.html")!
+            )
+          }
           
-          Text("This demo was created by Kody Deda.")
-            .multilineTextAlignment(.center)
+          Section("About") {
+            Text("This demo shows my ideal way of creating iOS apps, including patterns for dependency injection and state management.")
+          }
         }
-        .padding()
-        .padding([.horizontal, .top])
-        .navigationTitle("About")
+        .navigationTitle("ReadMe")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
           ToolbarItemGroup(placement: .cancellationAction) {
