@@ -80,7 +80,42 @@ struct FeatureView: View {
 }
 ```
 
-## 4. Navigation
+## 4. Testing
+
+Above I mentioned there are 3 types of dependenices - `preview`, `live`, and `test`.
+
+The `test` dependencies contain unimplemented functions, which fail the tests immediately unless implemented inside the test iself.
+
+This means you can write tests asserting when A succeeds or fails, and you know exactly which functions need to be implemented for that test to succeed.
+
+```swift
+// Definition
+extension Dependency {
+  static var testValue = Self(
+    getAuthor: unimplemented("\(Self.self).getAuthor")
+  )
+}
+```
+
+```swift
+// Test
+func testTask() async {
+  let response = Author()
+  let store = TestStore(
+    initialState: Feature.State(),
+    reducer: Feature()
+  ) {
+    $0.dependency.getAuthor = { response }
+  }
+  
+  await store.send(.task)
+  await store.receive(.taskResponse(.success(response))) {
+    $0.author = response
+  }
+}
+```
+
+## 5. Navigation (State-Driven )
 
 Navigation includes things like `Alerts`, `Sheets`, `NavigationLinks`, etc.
 
