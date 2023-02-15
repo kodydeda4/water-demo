@@ -39,11 +39,6 @@ struct ReadMe: ReducerProtocol {
   }
 }
 
-
-struct Author: Equatable {
-  
-}
-
 // MARK: - SwiftUI
 
 struct ReadMeView: View {
