@@ -80,35 +80,87 @@ struct WatersourceView: View {
       .frame(maxWidth: .infinity, alignment: .leading)
     }
   }
+  
+  private struct PillView: View {
+    let title: String
+    let systemImage: String
+    let color: Color
+    
+    var body: some View {
+      HStack {
+        Image(systemName: systemImage)
+        Text("\(title)")
+      }
+      .foregroundColor(color)
+      .padding(4)
+      .frame(maxWidth: .infinity, alignment: .center)
+      .background(color.gradient.opacity(0.25))
+      .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+    }
+  }
 }
 
-private struct PillView: View {
-  let title: String
-  let systemImage: String
-  let color: Color
+struct WatersourceMapAnnotationView: View {
+  let store: StoreOf<Watersource>
   
   var body: some View {
-    HStack {
-      Image(systemName: systemImage)
-      Text("\(title)")
+    WithViewStore(store) { viewStore in
+      NavigationLink(
+        destination: {
+          //WatersourceDetailsView(store: store)
+        },
+        label: {
+          AsyncImage(
+            url: viewStore.model.imageURL,
+            content: { $0.resizable().scaledToFill() },
+            placeholder: { ProgressView() }
+          )
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .background(Color(.systemGroupedBackground))
+          .frame(width: 60)
+          .clipShape(Circle())
+          .shadow(radius: 2)
+        }
+      )
     }
-    .foregroundColor(color)
-    .padding(4)
-    .frame(maxWidth: .infinity, alignment: .center)
-    .background(color.gradient.opacity(0.25))
-    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
   }
 }
 
 // MARK: - SwiftUI Previews
 
 struct WatersourceView_Previews: PreviewProvider {
+  private static let store = StoreOf<Watersource>(
+    initialState: Watersource.State(model: .mock),
+    reducer: Watersource()
+  )
+  
   static var previews: some View {
-    WatersourceView(store: .init(
-      initialState: Watersource.State(
-        model: .mock
-      ),
-      reducer: Watersource()
-    ))
+    WithViewStore(store) { viewStore in
+      NavigationStack {
+        VStack {
+          Map(
+            coordinateRegion: .constant(CoordinateRegion.wilmington.rawValue),
+            showsUserLocation: true,
+            annotationItems: [viewStore.model],
+            annotationContent: { watersource in
+              MapAnnotation(coordinate: watersource.location.rawValue) {
+                WatersourceMapAnnotationView(store: store)
+              }
+            }
+          )
+          List {
+            Section("List View") {
+              WatersourceView(store: .init(
+                initialState: Watersource.State(
+                  model: .mock
+                ),
+                reducer: Watersource()
+              ))
+            }
+          }
+        }
+        .navigationTitle("Preview")
+      }
+    }
   }
 }

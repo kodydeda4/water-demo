@@ -195,34 +195,6 @@ private struct MapView: View {
   }
 }
 
-private struct WatersourceMapAnnotationView: View {
-  let store: StoreOf<Watersource>
-  
-  var body: some View {
-    WithViewStore(store) { viewStore in
-      NavigationLink(
-        destination: {
-          Text("A")
-          //WatersourceDetailsView(store: store)
-        },
-        label: {
-          AsyncImage(
-            url: viewStore.model.imageURL,
-            content: { $0.resizable().scaledToFill() },
-            placeholder: { ProgressView() }
-          )
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .background(Color(.systemGroupedBackground))
-          .frame(width: 60)
-          .clipShape(Circle())
-          .shadow(radius: 2)
-        }
-      )
-    }
-  }
-}
-
-
 // MARK: - SwiftUI Previews
 
 struct AppView_Previews: PreviewProvider {
