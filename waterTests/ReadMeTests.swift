@@ -15,6 +15,7 @@ final class ReadMeTests: XCTestCase {
       initialState: ReadMe.State(),
       reducer: ReadMe()
     ) {
+      
       $0.appInfo.getAuthor = { response }
     }
     
