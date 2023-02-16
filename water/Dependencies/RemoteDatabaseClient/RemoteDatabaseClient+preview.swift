@@ -3,7 +3,7 @@ import ComposableArchitecture
 
 extension RemoteDatabaseClient {
   static var preview: Self {
-    let db = DatabaseMock()
+    let db = MockDatabase()
     
     return Self(
       getWatersources: {
@@ -17,8 +17,9 @@ extension RemoteDatabaseClient {
 }
 
 // MARK: - Private
+
 private extension RemoteDatabaseClient {
-  private actor DatabaseMock {
+  private actor MockDatabase {
     var watersources: IdentifiedArrayOf<Watersource>
     
     func update(watersource: Watersource) async throws {
