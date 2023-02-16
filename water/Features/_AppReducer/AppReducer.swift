@@ -78,8 +78,12 @@ struct AppReducer: ReducerProtocol {
     }
     .ifLet(\.destination, action: /Action.destination) {
       EmptyReducer()
-        .ifCaseLet(/State.Destination.readme, action: /Action.Destination.readme) { ReadMe() }
-        .ifCaseLet(/State.Destination.watersourceDetails, action: /Action.Destination.watersourceDetails) { WatersourceDetails() }
+        .ifCaseLet(/State.Destination.readme, action: /Action.Destination.readme) {
+          ReadMe()
+        }
+        .ifCaseLet(/State.Destination.watersourceDetails, action: /Action.Destination.watersourceDetails) {
+          WatersourceDetails()
+        }
     }
     ._printChanges()
   }
@@ -106,10 +110,11 @@ struct AppView: View {
                 state: \.watersources,
                 action: AppReducer.Action.watersources
               )) { childStore in
-                WatersourceNavigationLink(
-                  store: store,
-                  childStore: childStore
-                )
+                WithViewStore(childStore) { childViewStore in
+                  NavigationLink(value: childViewStore.model.id) {
+                    WatersourceView(store: childStore)
+                  }
+                }
               }
             }
           }
@@ -132,44 +137,19 @@ struct AppView: View {
               ) { ReadMeView(store: $0) }
             }
           )
+          .navigationDestination(for: WatersourceDetails.State.ID.self) { foo in
+            IfLetStore(store
+              .scope(state: \.destination, action: AppReducer.Action.destination)
+              .scope(state: /AppReducer.State.Destination.watersourceDetails, action: AppReducer.Action.Destination.watersourceDetails)
+            ) {
+              WatersourceDetailsView(store: $0)
+            }
+          }
         }
       }
     }
   }
 }
-
-private struct WatersourceNavigationLink: View {
-  let store: StoreOf<AppReducer>
-  let childStore: StoreOf<Watersource>
-  
-  var body: some View {
-    WithViewStore(store) { viewStore in
-      WithViewStore(childStore) { childViewStore in
-        NavigationLink(
-          destination: IfLetStore(store
-            .scope(state: \.destination, action: AppReducer.Action.destination)
-            .scope(state: /AppReducer.State.Destination.watersourceDetails, action: AppReducer.Action.Destination.watersourceDetails)
-          ) { WatersourceDetailsView(store: $0) },
-          tag: childViewStore.id,
-          selection: viewStore.binding(
-            get: { CasePath.extract(/AppReducer.State.Destination.watersourceDetails)(from: $0.destination)?.model.id },
-            send: {
-              AppReducer.Action.setDestination(viewStore
-                .watersources[id: childViewStore.id]
-                .flatMap({ AppReducer.State.Destination.watersourceDetails(WatersourceDetails.State(model: $0.model)) })
-              )}()
-          ),
-          label: {
-            WatersourceView(store: childStore)
-          }
-        )
-        .buttonStyle(.plain)
-        //.listRowBackground(EmptyView())
-      }
-    }
-  }
-}
-
 
 // MARK: - MapView
 
@@ -190,7 +170,13 @@ private struct MapView: View {
             IfLetStore(store.scope(
               state: { $0.watersources[id: watersource.id] },
               action: { AppReducer.Action.watersources(id: watersource.id, action: $0) }
-            ), then: WatersourceMapAnnotationView.init)
+            )) { childStore in
+              WithViewStore(childStore) { childViewStore in
+                NavigationLink(value: childViewStore.model.id) {
+                  WatersourceMapAnnotationView(store: childStore)
+                }
+              }
+            }
           }
         }
       )
