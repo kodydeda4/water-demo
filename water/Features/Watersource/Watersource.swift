@@ -6,6 +6,9 @@ struct Watersource: ReducerProtocol {
   struct State: Equatable, Identifiable {
     var id: RemoteDatabaseClient.Watersource.ID { model.id }
     var model: RemoteDatabaseClient.Watersource
+    var isComplete: Bool {
+      model.percentBoiled == 100 && model.percentDisinfected == 100 && model.percentFiltered == 100
+    }
   }
   
   enum Action: Equatable {
@@ -38,6 +41,18 @@ struct WatersourceView: View {
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemGroupedBackground))
+        .overlay {
+          ZStack {
+            Color.green
+            Image(systemName: "checkmark")
+              .resizable()
+              .scaledToFit()
+              .padding()
+              .padding()
+              .foregroundColor(.white)
+          }
+          .opacity(viewStore.isComplete ? 0.75 : 0)
+        }
         .frame(width: 60)
         .clipShape(Circle())
         
@@ -118,6 +133,17 @@ struct WatersourceMapAnnotationView: View {
           .frame(maxWidth: .infinity, maxHeight: .infinity)
           .background(Color(.systemGroupedBackground))
           .frame(width: 60)
+          .overlay {
+            ZStack {
+              Color.green
+              Image(systemName: "checkmark")
+                .resizable()
+                .scaledToFit()
+                .padding()
+                .foregroundColor(.white)
+            }
+            .opacity(viewStore.isComplete ? 0.75 : 0)
+          }
           .clipShape(Circle())
           .shadow(radius: 2)
         }
@@ -139,9 +165,9 @@ struct WatersourceView_Previews: PreviewProvider {
           latitude: Double.random(in: 31..<35),
           longitude: Double.random(in: -79 ..< -76)
         ),
-        percentBoiled: 59,
-        percentDisinfected: 12,
-        percentFiltered: 42
+        percentBoiled: 100,
+        percentDisinfected: 100,
+        percentFiltered: 100
       )
     ),
     reducer: Watersource()
@@ -163,12 +189,7 @@ struct WatersourceView_Previews: PreviewProvider {
           )
           List {
             Section("List View") {
-              WatersourceView(store: .init(
-                initialState: Watersource.State(
-                  model: .mock
-                ),
-                reducer: Watersource()
-              ))
+              WatersourceView(store: store)
             }
           }
         }

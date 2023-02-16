@@ -6,17 +6,36 @@ struct WatersourceDetails: ReducerProtocol {
   struct State: Equatable, Identifiable {
     var id: RemoteDatabaseClient.Watersource.ID { model.id }
     var model: RemoteDatabaseClient.Watersource
-    var isBoilingComplete: Bool { model.percentBoiled == 100 }
-    var isDisinfectingComplete: Bool { model.percentDisinfected == 100 }
-    var isFilteringComplete: Bool { model.percentFiltered == 100 }
+    var destination: Destination?
+    
+    var isBoilingComplete: Bool {
+      model.percentBoiled == 100
+    }
+    var isDisinfectingComplete: Bool {
+      model.percentDisinfected == 100
+    }
+    var isFilteringComplete: Bool {
+      model.percentFiltered == 100
+    }
+    var isComplete: Bool {
+      isBoilingComplete && isDisinfectingComplete && isFilteringComplete
+    }
+    
+    enum Destination: Equatable {
+      case didCompleteAlert(AlertState<Action>)
+    }
   }
   
   enum Action: Equatable {
     case boilButtonTapped
     case disinfectButtonTapped
     case filterButtonTapped
+    
     case updateRemoteDatabase
     case updateRemoteDatabaseResponse(TaskResult<String>)
+    
+    case didComplete
+    case dismissAlert
   }
   
   @Dependency(\.remoteDatabase) var remoteDatabase
@@ -45,7 +64,30 @@ struct WatersourceDetails: ReducerProtocol {
           })
         }
         
+      case .updateRemoteDatabaseResponse(.success):
+        if state.isComplete {
+          return .send(.didComplete)
+        } else {
+          return .none
+        }
+        
       case .updateRemoteDatabaseResponse:
+        return .none
+        
+      case .didComplete:
+        state.destination = .didCompleteAlert(AlertState {
+          TextState("Sanitization Complete")
+        } actions: {
+          ButtonState(role: .cancel) {
+            TextState("Dismiss")
+          }
+        } message: {
+          TextState("The water is safe for drinking.")
+        })
+        return .none
+        
+      case .dismissAlert:
+        state.destination = nil
         return .none
       }
     }
@@ -92,6 +134,12 @@ struct WatersourceDetailsView: View {
         }
       }
       .navigationTitle(viewStore.model.title)
+      .alert(
+        store.scope(state: {
+          CasePath.extract(/WatersourceDetails.State.Destination.didCompleteAlert)(from: $0.destination)
+        }),
+        dismiss: .dismissAlert
+      )
     }
   }
 }
@@ -110,6 +158,17 @@ private struct Header: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemGroupedBackground))
         .frame(width: 60)
+        .overlay {
+          ZStack {
+            Color.green
+            Image(systemName: "checkmark")
+              .resizable()
+              .scaledToFit()
+              .padding()
+              .foregroundColor(.white)
+          }
+          .opacity(viewStore.isComplete ? 0.75 : 0)
+        }
         .clipShape(Circle())
         
         VStack(alignment: .leading, spacing: 2) {
