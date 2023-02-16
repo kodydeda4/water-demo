@@ -12,9 +12,11 @@
 		33220B37299D729B000778DB /* AppInfoClient+live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33220B36299D729B000778DB /* AppInfoClient+live.swift */; };
 		33774410299E994B009F14AD /* WatersourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3377440F299E994B009F14AD /* WatersourceTests.swift */; };
 		33774412299E9961009F14AD /* WatersourceDetailsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33774411299E9961009F14AD /* WatersourceDetailsTests.swift */; };
+		33774414299E9B9E009F14AD /* AppInfoClient+preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33774413299E9B9E009F14AD /* AppInfoClient+preview.swift */; };
+		33774416299E9BEF009F14AD /* RemoteDatabaseClient+live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33774415299E9BEF009F14AD /* RemoteDatabaseClient+live.swift */; };
 		3390C202299C3FE700BD627E /* RemoteDatabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C201299C3FE700BD627E /* RemoteDatabaseClient.swift */; };
 		3390C206299C405000BD627E /* RemoteDatabaseClient.Watersource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C205299C405000BD627E /* RemoteDatabaseClient.Watersource.swift */; };
-		3390C208299C409500BD627E /* RemoteDatabaseClient+mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C207299C409500BD627E /* RemoteDatabaseClient+mock.swift */; };
+		3390C208299C409500BD627E /* RemoteDatabaseClient+preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C207299C409500BD627E /* RemoteDatabaseClient+preview.swift */; };
 		3390C20C299C582E00BD627E /* WatersourceDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3390C20B299C582E00BD627E /* WatersourceDetails.swift */; };
 		33C93FFA299D911400652558 /* AppInfoClient+test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C93FF9299D911400652558 /* AppInfoClient+test.swift */; };
 		33C93FFC299D915600652558 /* RemoteDatabaseClient+test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C93FFB299D915600652558 /* RemoteDatabaseClient+test.swift */; };
@@ -46,9 +48,11 @@
 		33220B36299D729B000778DB /* AppInfoClient+live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppInfoClient+live.swift"; sourceTree = "<group>"; };
 		3377440F299E994B009F14AD /* WatersourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatersourceTests.swift; sourceTree = "<group>"; };
 		33774411299E9961009F14AD /* WatersourceDetailsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatersourceDetailsTests.swift; sourceTree = "<group>"; };
+		33774413299E9B9E009F14AD /* AppInfoClient+preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppInfoClient+preview.swift"; sourceTree = "<group>"; };
+		33774415299E9BEF009F14AD /* RemoteDatabaseClient+live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteDatabaseClient+live.swift"; sourceTree = "<group>"; };
 		3390C201299C3FE700BD627E /* RemoteDatabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDatabaseClient.swift; sourceTree = "<group>"; };
 		3390C205299C405000BD627E /* RemoteDatabaseClient.Watersource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDatabaseClient.Watersource.swift; sourceTree = "<group>"; };
-		3390C207299C409500BD627E /* RemoteDatabaseClient+mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteDatabaseClient+mock.swift"; sourceTree = "<group>"; };
+		3390C207299C409500BD627E /* RemoteDatabaseClient+preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteDatabaseClient+preview.swift"; sourceTree = "<group>"; };
 		3390C20B299C582E00BD627E /* WatersourceDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatersourceDetails.swift; sourceTree = "<group>"; };
 		33C93FF9299D911400652558 /* AppInfoClient+test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppInfoClient+test.swift"; sourceTree = "<group>"; };
 		33C93FFB299D915600652558 /* RemoteDatabaseClient+test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteDatabaseClient+test.swift"; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 				33220B31299D7228000778DB /* _Models */,
 				33220B34299D727A000778DB /* AppInfoClient.swift */,
 				33220B36299D729B000778DB /* AppInfoClient+live.swift */,
+				33774413299E9B9E009F14AD /* AppInfoClient+preview.swift */,
 				33C93FF9299D911400652558 /* AppInfoClient+test.swift */,
 			);
 			path = AppInfoClient;
@@ -149,7 +154,8 @@
 			children = (
 				3390C204299C404000BD627E /* _Models */,
 				3390C201299C3FE700BD627E /* RemoteDatabaseClient.swift */,
-				3390C207299C409500BD627E /* RemoteDatabaseClient+mock.swift */,
+				33774415299E9BEF009F14AD /* RemoteDatabaseClient+live.swift */,
+				3390C207299C409500BD627E /* RemoteDatabaseClient+preview.swift */,
 				33C93FFB299D915600652558 /* RemoteDatabaseClient+test.swift */,
 			);
 			path = RemoteDatabaseClient;
@@ -357,10 +363,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33774414299E9B9E009F14AD /* AppInfoClient+preview.swift in Sources */,
 				33EF6837299C399B005DBC8B /* Watersource.swift in Sources */,
 				3390C202299C3FE700BD627E /* RemoteDatabaseClient.swift in Sources */,
 				33EF6835299C37E1005DBC8B /* CoordinateRegion.swift in Sources */,
 				33EF683A299C3A11005DBC8B /* AppReducer.swift in Sources */,
+				33774416299E9BEF009F14AD /* RemoteDatabaseClient+live.swift in Sources */,
 				3390C206299C405000BD627E /* RemoteDatabaseClient.Watersource.swift in Sources */,
 				33C93FFC299D915600652558 /* RemoteDatabaseClient+test.swift in Sources */,
 				33EF6820299C1A2E005DBC8B /* Main.swift in Sources */,
@@ -370,7 +378,7 @@
 				3390C20C299C582E00BD627E /* WatersourceDetails.swift in Sources */,
 				33EF6831299C2859005DBC8B /* ReadMe.swift in Sources */,
 				33C93FFA299D911400652558 /* AppInfoClient+test.swift in Sources */,
-				3390C208299C409500BD627E /* RemoteDatabaseClient+mock.swift in Sources */,
+				3390C208299C409500BD627E /* RemoteDatabaseClient+preview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

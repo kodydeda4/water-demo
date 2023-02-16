@@ -18,7 +18,7 @@ extension DependencyValues {
 // MARK: - Implementations
 
 extension RemoteDatabaseClient {
-  static var liveValue = Self.mock
-  static var previewValue = Self.mock
+  static var liveValue = Self.live
+  static var previewValue = Self.preview
   static var testValue = Self.test
 }

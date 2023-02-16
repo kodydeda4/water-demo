@@ -2,7 +2,7 @@ import Foundation
 import ComposableArchitecture
 
 extension RemoteDatabaseClient {
-  static var mock: Self {
+  static var preview: Self {
     let db = DatabaseMock()
     
     return Self(
