@@ -9,7 +9,11 @@ struct ReadMe: ReducerProtocol {
   enum Action: Equatable {
     case task
     case taskResponse(TaskResult<AppInfoClient.Author>)
-    case dismissButtonTapped
+    case delegate(Delegate)
+    
+    enum Delegate: Equatable {
+      case dismissButtonTapped
+    }
   }
   
   @Dependency(\.appInfo) var appInfo
@@ -32,7 +36,7 @@ struct ReadMe: ReducerProtocol {
       case .taskResponse(.failure):
         return .none
         
-      case .dismissButtonTapped:
+      case .delegate:
         return .none
       }
     }
@@ -47,7 +51,7 @@ struct ReadMeView: View {
   var body: some View {
     WithViewStore(store) { viewStore in
       NavigationView {
-        Form {
+        List {
           Section("Author") {
             HStack {
               HStack {
@@ -91,7 +95,7 @@ struct ReadMeView: View {
         .toolbar {
           ToolbarItemGroup(placement: .cancellationAction) {
             Button("Dismiss") {
-              viewStore.send(.dismissButtonTapped)
+              viewStore.send(.delegate(.dismissButtonTapped))
             }
           }
         }

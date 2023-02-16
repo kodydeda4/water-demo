@@ -61,9 +61,12 @@ struct AppReducer: ReducerProtocol {
       case .watersources:
         return.none
         
-      case .destination(.readme(.dismissButtonTapped)):
-        state.destination = nil
-        return .none
+      case let .destination(.readme(.delegate(delegateAction))):
+        switch delegateAction {
+        case .dismissButtonTapped:
+          state.destination = nil
+          return .none
+        }
         
       case .destination:
         return .none
