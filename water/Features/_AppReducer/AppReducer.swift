@@ -137,12 +137,22 @@ struct AppView: View {
               ) { ReadMeView(store: $0) }
             }
           )
-          .navigationDestination(for: WatersourceDetails.State.ID.self) { foo in
-            IfLetStore(store
-              .scope(state: \.destination, action: AppReducer.Action.destination)
-              .scope(state: /AppReducer.State.Destination.watersourceDetails, action: AppReducer.Action.Destination.watersourceDetails)
-            ) {
-              WatersourceDetailsView(store: $0)
+          .navigationDestination(for: WatersourceDetails.State.ID.self) { id in
+            VStack {
+              IfLetStore(
+                store
+                  .scope(state: \.destination, action: AppReducer.Action.destination)
+                  .scope(state: /AppReducer.State.Destination.watersourceDetails, action: AppReducer.Action.Destination.watersourceDetails),
+                then: {
+                  WatersourceDetailsView(store: $0)
+                },
+                else: { Text("Hi") }
+              )
+            }
+            .task {
+              viewStore.send(.setDestination(.watersourceDetails(.init(
+                model: viewStore.watersources[id: id]!.model
+              ))))
             }
           }
         }
@@ -192,8 +202,9 @@ struct AppView_Previews: PreviewProvider {
       initialState: AppReducer.State(
         region: .wilmington,
         watersources: [.init(model: .mock)],
-        //        destination: .readme(.init())
-        destination: .watersourceDetails(.init(model: .mock))
+        destination: nil
+//        destination: .readme(.init())
+//        destination: .watersourceDetails(.init(model: .mock))
       ),
       reducer: AppReducer()
     ))

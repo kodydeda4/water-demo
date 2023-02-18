@@ -120,34 +120,27 @@ struct WatersourceMapAnnotationView: View {
   
   var body: some View {
     WithViewStore(store) { viewStore in
-      NavigationLink(
-        destination: {
-          //WatersourceDetailsView(store: store)
-        },
-        label: {
-          AsyncImage(
-            url: viewStore.model.imageURL,
-            content: { $0.resizable().scaledToFill() },
-            placeholder: { ProgressView() }
-          )
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .background(Color(.systemGroupedBackground))
-          .frame(width: 60)
-          .overlay {
-            ZStack {
-              Color.green
-              Image(systemName: "checkmark")
-                .resizable()
-                .scaledToFit()
-                .padding()
-                .foregroundColor(.white)
-            }
-            .opacity(viewStore.isComplete ? 0.75 : 0)
-          }
-          .clipShape(Circle())
-          .shadow(radius: 2)
-        }
+      AsyncImage(
+        url: viewStore.model.imageURL,
+        content: { $0.resizable().scaledToFill() },
+        placeholder: { ProgressView() }
       )
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(.systemGroupedBackground))
+      .frame(width: 60)
+      .overlay {
+        ZStack {
+          Color.green
+          Image(systemName: "checkmark")
+            .resizable()
+            .scaledToFit()
+            .padding()
+            .foregroundColor(.white)
+        }
+        .opacity(viewStore.isComplete ? 0.75 : 0)
+      }
+      .clipShape(Circle())
+      .shadow(radius: 2)
     }
   }
 }
