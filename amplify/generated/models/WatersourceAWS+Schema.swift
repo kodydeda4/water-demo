@@ -3,8 +3,8 @@ import Amplify
 import Foundation
 
 extension WatersourceAWS {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
+  // MARK: - CodingKeys
+  public enum CodingKeys: String, ModelKey {
     case id
     case title
     case imageURL
@@ -18,7 +18,7 @@ extension WatersourceAWS {
   }
   
   public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
+  //  MARK: - ModelSchema
   
   public static let schema = defineSchema { model in
     let watersourceAWS = WatersourceAWS.keys
@@ -41,7 +41,7 @@ extension WatersourceAWS {
       .field(watersourceAWS.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(watersourceAWS.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
-    }
+  }
 }
 
 extension WatersourceAWS: ModelIdentifiable {
