@@ -4,6 +4,7 @@ import XCTestDynamicOverlay
 
 @main
 struct Main: App {
+  
   var body: some Scene {
     WindowGroup {
       if !_XCTIsTesting {

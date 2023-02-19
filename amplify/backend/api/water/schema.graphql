@@ -1,0 +1,10 @@
+type WatersourceAWS @model {
+  id: ID!
+  title: String!
+  imageURL: AWSURL!
+  locationLatitude: Float!
+  locationLongitude: Float!
+  percentBoiled: Float!
+  percentDisinfected: Float!
+  percentFiltered: Float!
+}

@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-water-dev-212430-authRole",
+      "UnauthRoleArn": "arn:aws:iam::639044400802:role/amplify-water-dev-212430-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::639044400802:role/amplify-water-dev-212430-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-water-dev-212430-deployment",
+      "UnauthRoleName": "amplify-water-dev-212430-unauthRole",
+      "StackName": "amplify-water-dev-212430",
+      "StackId": "arn:aws:cloudformation:us-east-1:639044400802:stack/amplify-water-dev-212430/8ae164c0-affc-11ed-b810-1259cc103caf",
+      "AmplifyAppId": "d2k4q9nyx0tktg"
+    }
+  }
+}
