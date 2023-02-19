@@ -138,22 +138,15 @@ struct AppView: View {
             }
           )
           .navigationDestination(for: WatersourceDetails.State.ID.self) { id in
-            VStack {
-              IfLetStore(
-                store
-                  .scope(state: \.destination, action: AppReducer.Action.destination)
-                  .scope(state: /AppReducer.State.Destination.watersourceDetails, action: AppReducer.Action.Destination.watersourceDetails),
-                then: {
-                  WatersourceDetailsView(store: $0)
-                },
-                else: { Text("Hi") }
-              )
-            }
-            .task {
-              viewStore.send(.setDestination(.watersourceDetails(.init(
-                model: viewStore.watersources[id: id]!.model
-              ))))
-            }
+            IfLetStore(store
+              .scope(state: \.destination, action: AppReducer.Action.destination)
+              .scope(state: /AppReducer.State.Destination.watersourceDetails, action: AppReducer.Action.Destination.watersourceDetails)
+            ) { WatersourceDetailsView(store: $0) }
+              .task {
+                viewStore.send(.setDestination(.watersourceDetails(.init(
+                  model: viewStore.watersources[id: id]!.model
+                ))))
+              }
           }
         }
       }
